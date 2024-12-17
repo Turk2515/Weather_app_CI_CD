@@ -9,8 +9,7 @@ app = Flask(__name__)
 
 # Database file
 DB_FILE = 'weather_data.db'
-API_KEY = 'your_openweathermap_api_key'
-
+API_KEY = '49424fb7930677fa9a250e71f9a658da'
 # Ensure database exists
 def init_db():
     with sqlite3.connect(DB_FILE) as conn:
@@ -33,6 +32,7 @@ def home():
 @app.route('/add_city', methods=['POST'])
 def add_city():
     city = request.form['city']
+    print(f"City received: {city}")
     if not city:
         return redirect(url_for('home'))
 
@@ -40,6 +40,9 @@ def add_city():
     weather_data = fetch_weather(city)
     if weather_data:
         save_to_db(city, weather_data)
+        print("Weather data saved")
+    else:
+        print("Failed to fetch weather data")
 
     return redirect(url_for('home'))
 
@@ -68,7 +71,12 @@ def plot():
     plt.xlabel('City')
     plt.ylabel('Temperature (°C)')
     plt.savefig('static/plot.png')
+        # Ensure the static directory exists
+    os.makedirs('static', exist_ok=True)
+
+    plt.savefig('static/plot.png')
     return send_file('static/plot.png', mimetype='image/png')
+
 
 def fetch_weather(city):
     try:
@@ -76,6 +84,7 @@ def fetch_weather(city):
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
+        print(f"Fetched data: {data}")
 
         return {
             'temperature': data['main']['temp'],
@@ -94,6 +103,7 @@ def save_to_db(city, weather_data):
             VALUES (?, ?, ?, ?)
         ''', (city, weather_data['temperature'], weather_data['humidity'], weather_data['description']))
         conn.commit()
+        print("Data saved to DB")
 
 if __name__ == '__main__':
     init_db()
