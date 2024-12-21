@@ -61,4 +61,12 @@
         name: vagrant
         groups: docker
         append: yes
-
+        
+    - name: Run Docker container from image 
+      docker_container: 
+        name: weather-app 
+        image: mostafa2515/weather-app 
+        state: started 
+        restart_policy: always 
+        ports: 
+          - "5000:5000"
