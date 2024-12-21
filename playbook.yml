@@ -56,3 +56,9 @@
         name: mostafa2515/weather-app
         source: pull
 
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
+
