@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    
+    environment {
+        GIT_CREDENTIALS = 'github-token'  // The ID of the GitHub token credentials you added
+        DOCKER_IMAGE = 'mostafa2515/weather-app'  // Replace with your DockerHub username and image name
+        DOCKERHUB_CREDENTIALS = 'dockerhub-credentials' // The ID of the Docker Hub credentials
+    }
+    
+    stages {
+        stage('Pull Code') {
+            steps {
+                script {
+                    git branch: 'main', credentialsId: "${GIT_CREDENTIALS}", url: 'https://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@github.com/Turk2515/Weather_info_app.git'
+                }
+            }
+        }
+        
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}")
+                }
+            }
+        }
+        
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
+                        docker.image("${DOCKER_IMAGE}").push()
+                    }
+                }
+            }
+        }
+        
+        stage('Run Ansible Playbook') { 
+            steps { 
+                script { 
+                    sh 'ansible-playbook -i inventory.ini playbook.yml'
+                     
+                    }
+                }
+            }
+    }
+    
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
+}
