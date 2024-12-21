@@ -51,22 +51,22 @@
         dest: /usr/bin/docker-compose
         state: link
 
-    - name: Pull Docker image from Docker Hub
-      docker_image:
-        name: mostafa2515/weather-app
-        source: pull
-
     - name: Add vagrant user to docker group
       user:
         name: vagrant
         groups: docker
         append: yes
-        
-    - name: Run Docker container from image 
-      docker_container: 
-        name: weather-app 
-        image: mostafa2515/weather-app 
-        state: started 
-        restart_policy: always 
-        ports: 
-          - "5000:5000"
+
+    - name: Pull Docker image from Docker Hub
+      docker_image:
+        name: mostafa2515/weather-app
+        source: pull
+
+    - name: Run Docker container from image
+      docker_container:
+        name: weather-app
+        image: mostafa2515/weather-app
+        state: started
+        restart_policy: always
+        ports:
+          - "80:80"
