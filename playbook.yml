@@ -1,0 +1,64 @@
+- name: Configure CentOS VMs
+  hosts: centos_vms
+  become: true
+  tasks:
+    - name: Ensure latest version of EPEL
+      yum:
+        name: epel-release
+        state: latest
+
+    - name: Install essential packages
+      yum:
+        name:
+          - git
+          - vim
+        state: present
+
+    - name: Install required system packages for Docker
+      yum:
+        name:
+          - yum-utils
+          - device-mapper-persistent-data
+          - lvm2
+        state: present
+
+    - name: Add Docker repository
+      command: >
+        yum-config-manager
+        --add-repo
+        https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: Install Docker
+      yum:
+        name: docker-ce
+        state: latest
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Download Docker Compose binary
+      get_url:
+        url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Create symlink for docker-compose
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
+
+    - name: Pull Docker image from Docker Hub
+      docker_image:
+        name: mostafa2515/weather-app
+        source: pull
+
+    - name: Add vagrant user to docker group
+      user:
+        name: vagrant
+        groups: docker
+        append: yes
+
