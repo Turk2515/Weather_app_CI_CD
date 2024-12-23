@@ -1,6 +1,6 @@
 <h1>▶️ Project Diagram</h1>
 
-![final](https://github.com/user-attachments/assets/f10b5d08-5d74-4a24-adb8-3daddef7766c)
+![final](https://github.com/user-attachments/assets/4af1d61d-0603-44cf-bdb5-34de0bb068f9)
 
 <br><br><br>
 
@@ -51,6 +51,15 @@ Docker Compose is used to manage the application and its dependencies in a multi
 
 
 ![Screenshot from 2024-12-21 11-41-32](https://github.com/user-attachments/assets/88307d4e-d971-4194-a16d-9c1c700bc55f)
+
+<br><br>
+<h3>2 VMs:</h3>
+
+
+![Screenshot from 2024-12-23 12-57-26](https://github.com/user-attachments/assets/55c719e6-a2ca-42f2-9c7a-f3c5e01b5b94)
+
+
+![Screenshot from 2024-12-23 12-57-34](https://github.com/user-attachments/assets/3793eb5d-1d3e-49c8-94f3-3e784315a8ac)
 
 
 
