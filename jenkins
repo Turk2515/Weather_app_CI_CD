@@ -11,7 +11,7 @@ pipeline {
         stage('Pull Code') {
             steps {
                 script {
-                    git branch: 'main', credentialsId: "${GIT_CREDENTIALS}", url: 'your_github_token@github.com/Turk2515/Weather_info_app.git'
+                    git branch: 'main', credentialsId: "${GIT_CREDENTIALS}", url: 'your_github_token@github.com/Turk2515/Weather_app_CI_CD.git'
                 }
             }
         }
